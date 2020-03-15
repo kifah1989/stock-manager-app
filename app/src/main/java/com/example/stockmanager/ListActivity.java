@@ -2,15 +2,13 @@ package com.example.stockmanager;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -63,6 +61,10 @@ public class ListActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.add) {
 
+            Intent tes = new Intent(ListActivity.this, Scanner.class);
+            startActivity(tes);
+        }
+        else if (id == R.id.sell) {
             Intent tes = new Intent(ListActivity.this, Scanner.class);
             startActivity(tes);
         }
