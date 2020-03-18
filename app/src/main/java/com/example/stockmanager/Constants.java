@@ -3,7 +3,7 @@ package com.example.stockmanager;
 
 
 public class Constants {
-    private static final String URL= "http://192.168.0.105/";
+    private static final String URL= "http://192.168.0.4/";
     private static final String ROOT_URL = URL+"android/";
     static final String URL_ADD = ROOT_URL+"add.php";
     static final String URL_DELETE = ROOT_URL+"delete.php";
