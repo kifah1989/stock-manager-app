@@ -1,58 +1,57 @@
 package com.example.stockmanager;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import android.util.Log;
+import android.util.SparseArray;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import com.google.android.gms.vision.barcode.Barcode;
+import info.androidhive.barcode.BarcodeReader;
 
-import com.google.zxing.Result;
+import java.util.List;
 
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
-import static android.content.ContentValues.TAG;
-
-public class Scanner extends Activity implements ZXingScannerView.ResultHandler {
-    private ZXingScannerView mScannerView;
+public class Scanner extends AppCompatActivity implements BarcodeReader.BarcodeReaderListener {
+    private BarcodeReader barcodeReader;
+    private String TAG;
 
     @Override
-    protected void onCreate(Bundle state) {
-        super.onCreate(state);
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_DENIED)
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 100);
-        mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
-        setContentView(mScannerView);                // Set the scanner view as the content view
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.scanner);
+        barcodeReader = (BarcodeReader) getSupportFragmentManager().findFragmentById(R.id.barcode_fragment);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
-        mScannerView.startCamera();          // Start camera on resume
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mScannerView.stopCamera();           // Stop camera on pause
-    }
-
-    @Override
-    public void handleResult(Result rawResult) {
-        // Do something with the result here
-        Log.v(TAG, rawResult.getText()); // Prints scan results
-        Log.v(TAG, rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
+    public void onScanned(Barcode barcode) {
+        Log.e(TAG, "onScanned: " + barcode.displayValue);
+        barcodeReader.playBeep();
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        i.putExtra("barcode", rawResult.getText());
+        i.putExtra("barcode", barcode.rawValue);
         // Set the request code to any code you like, you can identify the
         // callback via this code
-        startActivity(i);
 
-        // If you would like to resume scanning, call this method below:
-        //mScannerView.resumeCameraPreview(this);
+        startActivity(i);
+    }
+
+    @Override
+    public void onScannedMultiple(List<Barcode> barcodes) {
+
+    }
+
+    @Override
+    public void onBitmapScanned(SparseArray<Barcode> sparseArray) {
+
+    }
+
+    @Override
+    public void onScanError(String errorMessage) {
+
+    }
+
+    @Override
+    public void onCameraPermissionDenied() {
+        Toast.makeText(getApplicationContext(), "Camera permission denied!", Toast.LENGTH_LONG).show();
+
     }
 }

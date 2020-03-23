@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
@@ -28,6 +32,15 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'me.dm7.barcodescanner:zxing:1.9.13'
     testImplementation 'junit:junit:4.13'
+    // google mobile vision
+    implementation 'com.google.android.gms:play-services-vision:19.0.0'
+    // barcode reader
+    implementation 'info.androidhive:barcode-reader:1.1.5'
+    // dependency for Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.7.2'
+    // JSON Parsing
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
+
 }

@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(response);
                                 Toast.makeText(MainActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 if(jsonObject.getString("message").equals("Data Added Successfully")){
-                                    ListActivity.ma.refresh_list();
+                                    ListActivity.ma.getUserListData();
                                     finish();
                                 }
                             }catch (JSONException e) {

@@ -94,7 +94,7 @@ public class EditActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(response);
                                 Toast.makeText(EditActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 if(jsonObject.getString("message").equals("Edit Data Successful")){
-                                    ListActivity.ma.refresh_list();
+                                    ListActivity.ma.getUserListData();
                                     finish();
                                 }
                             }catch (JSONException e) {

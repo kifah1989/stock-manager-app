@@ -24,12 +24,12 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
-    private List<Model> listItems;
+    Products listItems;
     private Context context;
     private ProgressDialog dialog;
 
 
-    MyAdapter(List<Model> listItems, Context context) {
+    MyAdapter(Products listItems, Context context) {
         this.listItems = listItems;
         this.context = context;
     }
@@ -64,12 +64,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Model listItem = listItems.get(position);
-        holder.id.setText(listItem.getId());
-        holder.pqty.setText(listItem.getpqty());
-        holder.pname.setText(listItem.getpname());
-        holder.pdescription.setText(listItem.getpdescription());
-        holder.pprice.setText(listItem.getpprice());
+        holder.id.setText(listItems.getData().get(position).getId());
+        holder.pqty.setText(listItems.getData().get(position).getPqty());
+        holder.pname.setText(listItems.getData().get(position).getPname());
+        holder.pdescription.setText(listItems.getData().get(position).getPdescription());
+        holder.pprice.setText(listItems.getData().get(position).getPprice());
 
         holder.card_view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,34 +77,34 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 final ProgressDialog dialog = new ProgressDialog(view.getContext());
                 dialog.setMessage("Loading Delete Data");
                 final CharSequence[] dialogitem = {"View Data","Edit Data","Delete Data"};
-                builder.setTitle(listItem.getpname());
+                builder.setTitle(listItems.getData().get(position).getPname());
                 builder.setItems(dialogitem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
                             case 0 :
                                 Intent intent = new Intent(view.getContext(), DetailData.class);
-                                intent.putExtra("id", listItem.getId());
-                                intent.putExtra("pqty",listItem.getpqty());
-                                intent.putExtra("pname",listItem.getpname());
-                                intent.putExtra("pdescription",listItem.getpdescription());
-                                intent.putExtra("pprice", listItem.getpprice());
+                                intent.putExtra("id", listItems.getData().get(position).getId());
+                                intent.putExtra("pqty",listItems.getData().get(position).getPqty());
+                                intent.putExtra("pname",listItems.getData().get(position).getPname());
+                                intent.putExtra("pdescription",listItems.getData().get(position).getPdescription());
+                                intent.putExtra("pprice", listItems.getData().get(position).getPprice());
                                 view.getContext().startActivity(intent);
                                 break;
                             case 1 :
 
                                 Intent intent2 = new Intent(view.getContext(), EditActivity.class);
-                                intent2.putExtra("id", listItem.getId());
-                                intent2.putExtra("pqty",listItem.getpqty());
-                                intent2.putExtra("pname",listItem.getpname());
-                                intent2.putExtra("pdescription",listItem.getpdescription());
-                                intent2.putExtra("pprice", listItem.getpprice());
+                                intent2.putExtra("id", listItems.getData().get(position).getId());
+                                intent2.putExtra("pqty",listItems.getData().get(position).getPqty());
+                                intent2.putExtra("pname",listItems.getData().get(position).getPname());
+                                intent2.putExtra("pdescription",listItems.getData().get(position).getPdescription());
+                                intent2.putExtra("pprice", listItems.getData().get(position).getPprice());
                                 view.getContext().startActivity(intent2);
                                 break;
                             case 2 :
 
                                 AlertDialog.Builder builderDel = new AlertDialog.Builder(view.getContext());
-                                builderDel.setTitle(listItem.getpname());
+                                builderDel.setTitle(listItems.getData().get(position).getPname());
                                 builderDel.setMessage("Are You Sure, You Want to Delete Data?");
                                 builderDel.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
@@ -118,8 +117,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                                             public void onResponse(String response) {
                                                 dialog.hide();
                                                 dialog.dismiss();
-                                                Toast.makeText(view.getContext(),"Successfully Deleted Data "+ listItem.getpname(),Toast.LENGTH_LONG).show();
-                                                ListActivity.ma.refresh_list();
+                                                Toast.makeText(view.getContext(),"Successfully Deleted Data "+ listItems.getData().get(position).getPname(),Toast.LENGTH_LONG).show();
+                                                ListActivity.ma.getUserListData();
 
                                             }
                                         }, new Response.ErrorListener() {
@@ -131,7 +130,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                                         }){
                                             protected HashMap<String, String> getParams() {
                                                 HashMap<String, String> params= new HashMap<>();
-                                                params.put("id",listItem.getId());
+                                                params.put("id",listItems.getData().get(position).getId());
                                                 return params;
 
                                             }
@@ -163,6 +162,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return listItems.size();
+        return listItems.getData().size();
     }
 }
