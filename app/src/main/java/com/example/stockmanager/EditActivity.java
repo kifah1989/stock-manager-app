@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +12,6 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -21,9 +21,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class EditActivity extends AppCompatActivity {
-    EditText pqty, pname, pdescription, pprice;
-    String Pqty, Pname, Pdescription, Pprice, Id;
+    Products signUpResponsesData;
+
+    EditText pqty, pname, pdescription, price, id;
     Button button;
     Boolean valid = true;
     ProgressDialog progressDialog;
@@ -31,96 +36,73 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-
+        id = (EditText) findViewById(R.id.barcode);
         pqty = (EditText) findViewById(R.id.pqty);
         pname = (EditText) findViewById(R.id.pname);
         pdescription = (EditText) findViewById(R.id.pdescription);
-        pprice = (EditText) findViewById(R.id.pprice);
+        price = (EditText) findViewById(R.id.pprice);
         progressDialog = new ProgressDialog(this);
         button = (Button) findViewById(R.id.button);
 
-        Id = getIntent().getStringExtra("id");
+        id.setText(getIntent().getStringExtra("id"));
         pqty.setText(getIntent().getStringExtra("pqty"));
         pname.setText(getIntent().getStringExtra("pname"));
         pdescription.setText(getIntent().getStringExtra("pdescription"));
-        pprice.setText(getIntent().getStringExtra("pprice"));
-
+        price.setText(getIntent().getStringExtra("pprice"));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Pqty = pqty.getText().toString();
-                Pname = pname.getText().toString();
-                Pdescription = pdescription.getText().toString();
-                Pprice = pprice.getText().toString();
-
-                if(TextUtils.isEmpty(Pqty)){
-                    pqty.setError("quantity Cannot be Empty");
-                    valid = false;
-                }else {
-                    valid = true;
-
-                    if(TextUtils.isEmpty(Pname)){
-                        pname.setError("product name Cannot be Empty");
-                        valid = false;
-                    }else {
-                        valid = true;
-
-                        if(TextUtils.isEmpty(Pdescription)){
-                            pdescription.setError("description Cannot be Empty");
-                            valid = false;
-                        }else {
-                            valid = true;
-
-                            if(TextUtils.isEmpty(Pprice)){
-                                pprice.setError("price Cannot be Empty");
-                                valid = false;
-                            }else {
-                                valid = true;
-                            }
-                        }
-
-                    }
+                // validate the fields and call sign method to implement the api
+                if (validate(pname) && validate(pdescription) && validate(pqty) && validate(price)) {
+                    updateData();
                 }
+            }
+        });
 
-                if(valid){
-                    progressDialog.setMessage("Loading");
-                    progressDialog.show();
+    }
 
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_UPDATE, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            progressDialog.dismiss();
-                            try{
-                                JSONObject jsonObject = new JSONObject(response);
-                                Toast.makeText(EditActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                if(jsonObject.getString("message").equals("Edit Data Successful")){
-                                    ListActivity.ma.getUserListData();
-                                    finish();
-                                }
-                            }catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            progressDialog.hide();
-                            Toast.makeText(EditActivity.this, "Failed",Toast.LENGTH_SHORT).show();
-                        }
-                    }){
-                        protected Map<String , String> getParams() throws AuthFailureError {
-                            Map<String , String> params = new HashMap<>();
-                            params.put("id", Id);
-                            params.put("pname", Pname);
-                            params.put("pqty", Pqty);
-                            params.put("pprice", Pprice);
-                            params.put("pdescription",Pdescription);
-                            return params;
-                        }
-                    };
-                    RequestHandler.getInstance(EditActivity.this).addToRequestQueue(stringRequest);
+    private boolean validate(EditText editText) {
+        // check the lenght of the enter data in EditText and give error if its empty
+        if (editText.getText().toString().trim().length() > 0) {
+            return true; // returns true if field is not empty
+        }
+        editText.setError("Please Fill This");
+        editText.requestFocus();
+        return false;
+    }
 
-                }
+    private void updateData() {
+        // display a progress dialog
+        final ProgressDialog progressDialog = new ProgressDialog(EditActivity.this);
+        progressDialog.setCancelable(false); // set cancelable to false
+        progressDialog.setMessage("Please Wait"); // set message
+        progressDialog.show(); // show progress dialog
+
+        // Api is a class in which we define a method getClient() that returns the API Interface class object
+        // registration is a POST request type method in which we are sending our field's data
+        // enqueue is used for callback response and error
+
+        (Api.getClient().update(
+                id.getText().toString().trim(),
+                pname.getText().toString().trim(),
+                pdescription.getText().toString().trim(),
+                pqty.getText().toString().trim(),
+                price.getText().toString().trim())).enqueue(new Callback<Products>() {
+            @Override
+            public void onResponse(Call<Products> call, Response<Products> response) {
+                signUpResponsesData = response.body();
+                Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                ListActivity.ma.getProductListData();
+
+                progressDialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(Call<Products> call, Throwable t) {
+                Log.d("response", t.getStackTrace().toString());
+                progressDialog.dismiss();
+
             }
         });
     }

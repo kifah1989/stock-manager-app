@@ -54,13 +54,13 @@ public class ListActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         listItems = new ArrayList<>();
         ma = this;
-        getUserListData();
+        getProductListData();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        getUserListData();
+        getProductListData();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,7 +84,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
 
-    public void getUserListData() {
+    public void getProductListData() {
         // display a progress dialog
         final ProgressDialog progressDialog = new ProgressDialog((Context) ListActivity.this);
         progressDialog.setCancelable(false); // set cancelable to false

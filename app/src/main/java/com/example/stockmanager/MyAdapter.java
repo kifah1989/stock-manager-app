@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +17,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import java.util.HashMap;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
+    Products signUpResponsesData;
+
 
     Products listItems;
     private Context context;
@@ -112,31 +119,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialog.show();
 
-                                        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_DELETE, new Response.Listener<String>() {
+                                        (Api.getClient().delete(listItems.getData().get(position).getId())).enqueue(new Callback<Products>() {
                                             @Override
-                                            public void onResponse(String response) {
-                                                dialog.hide();
-                                                dialog.dismiss();
-                                                Toast.makeText(view.getContext(),"Successfully Deleted Data "+ listItems.getData().get(position).getPname(),Toast.LENGTH_LONG).show();
-                                                ListActivity.ma.getUserListData();
+                                            public void onResponse(Call<Products> call, Response<Products> response) {
+                                                signUpResponsesData = response.body();
+                                                Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                                ListActivity.ma.getProductListData();
+
+                                                dialog.cancel();
 
                                             }
-                                        }, new Response.ErrorListener() {
+
                                             @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                dialog.hide();
-                                                dialog.dismiss();
-                                            }
-                                        }){
-                                            protected HashMap<String, String> getParams() {
-                                                HashMap<String, String> params= new HashMap<>();
-                                                params.put("id",listItems.getData().get(position).getId());
-                                                return params;
+                                            public void onFailure(Call<Products> call, Throwable t) {
+                                                Log.d("response", t.getStackTrace().toString());
 
                                             }
-                                        };
-                                        RequestHandler.getInstance(view.getContext()).addToRequestQueue(stringRequest);
-                                        dialogInterface.dismiss();
+                                        });
+
                                     }
                                 });
 
