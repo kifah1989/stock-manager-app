@@ -13,7 +13,7 @@ public class Api {
         // change your base URL
         if (retrofit==null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.0.4")
+                    .baseUrl("http://192.168.1.4")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

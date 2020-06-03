@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">stock manager</string>
+    <string name="msg_loading">Loading...</string>
+    <string name="uploadImages">Set your image</string>
 </resources>

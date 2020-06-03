@@ -35,6 +35,17 @@ public class Scanner extends AppCompatActivity implements BarcodeReader.BarcodeR
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        i.putExtra("barcode", 0);
+        // Set the request code to any code you like, you can identify the
+        // callback via this code
+
+        startActivity(i);
+    }
+
+    @Override
     public void onScannedMultiple(List<Barcode> barcodes) {
 
     }

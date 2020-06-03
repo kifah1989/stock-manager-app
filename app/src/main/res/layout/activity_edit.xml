@@ -24,7 +24,7 @@
                 android:textColor="#546e7a"/>
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textView63"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="barcode"
@@ -40,14 +40,29 @@
                 android:padding="10dp" />
 
             <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="product name"
+                android:textColor="#546e7a" />
+
+            <EditText
+                android:id="@+id/pname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@xml/input"
+                android:padding="10dp" />
+
+            <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="quantity"
+                android:text="supplier"
                 android:textColor="#546e7a"/>
 
             <EditText
-                android:id="@+id/pqty"
+                android:id="@+id/supplier"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -60,11 +75,11 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="product name"
+                android:text="category"
                 android:textColor="#546e7a"/>
 
             <EditText
-                android:id="@+id/pname"
+                android:id="@+id/category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -77,11 +92,11 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="price"
+                android:text="quantity"
                 android:textColor="#546e7a"/>
 
             <EditText
-                android:id="@+id/pprice"
+                android:id="@+id/quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -94,11 +109,11 @@
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="description"
+                android:text="original price"
                 android:textColor="#546e7a"/>
 
             <EditText
-                android:id="@+id/pdescription"
+                android:id="@+id/originalPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -106,6 +121,41 @@
                 android:background="@xml/input"
                 android:layout_marginBottom="10dp"
                 android:inputType="text"/>
+
+            <TextView
+                android:id="@+id/textView61"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="selling price"
+                android:textColor="#546e7a"/>
+
+            <EditText
+                android:id="@+id/sellingPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:padding="10dp"
+                android:background="@xml/input"
+                android:layout_marginBottom="10dp"
+                android:inputType="text"/>
+
+            <TextView
+                android:id="@+id/textView62"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="date"
+                android:textColor="#546e7a"/>
+
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:padding="10dp"
+                android:background="@xml/input"
+                android:layout_marginBottom="10dp"
+                android:inputType="text"/>
+
 
 
             <Button

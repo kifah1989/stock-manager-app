@@ -3,23 +3,11 @@ package com.example.stockmanager;
 import android.app.ProgressDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +16,14 @@ import retrofit2.Response;
 public class EditActivity extends AppCompatActivity {
     Products signUpResponsesData;
 
-    EditText pqty, pname, pdescription, price, id;
+    EditText Barcode,
+            Pname,
+            Supplier,
+            Category,
+            Quantity,
+            OriginalPrice,
+            SellingPrice,
+            Date;
     Button button;
     Boolean valid = true;
     ProgressDialog progressDialog;
@@ -36,24 +31,39 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        id = (EditText) findViewById(R.id.barcode);
-        pqty = (EditText) findViewById(R.id.pqty);
-        pname = (EditText) findViewById(R.id.pname);
-        pdescription = (EditText) findViewById(R.id.pdescription);
-        price = (EditText) findViewById(R.id.pprice);
+            Barcode       = (EditText) findViewById(R.id.barcode);
+           Pname          = (EditText) findViewById(R.id.pname);
+           Supplier      = (EditText) findViewById(R.id.supplier);
+           Category       = (EditText) findViewById(R.id.category);
+           Quantity       = (EditText) findViewById(R.id.quantity);
+           OriginalPrice   = (EditText) findViewById(R.id.originalPrice);
+           SellingPrice    = (EditText) findViewById(R.id.sellingPrice);
+           Date            = (EditText) findViewById(R.id.date);
+
         progressDialog = new ProgressDialog(this);
         button = (Button) findViewById(R.id.button);
 
-        id.setText(getIntent().getStringExtra("id"));
-        pqty.setText(getIntent().getStringExtra("pqty"));
-        pname.setText(getIntent().getStringExtra("pname"));
-        pdescription.setText(getIntent().getStringExtra("pdescription"));
-        price.setText(getIntent().getStringExtra("pprice"));
+        Barcode.setText(getIntent().getStringExtra("Barcode"));
+        Pname.setText(getIntent().getStringExtra("Pname"));
+        Supplier.setText(getIntent().getStringExtra("Supplier"));
+        Category.setText(getIntent().getStringExtra("Category"));
+        Quantity.setText(getIntent().getStringExtra("Quantity"));
+        OriginalPrice.setText(getIntent().getStringExtra("OriginalPrice"));
+        SellingPrice.setText(getIntent().getStringExtra("SellingPrice"));
+        Date.setText(getIntent().getStringExtra("Date"));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // validate the fields and call sign method to implement the api
-                if (validate(pname) && validate(pdescription) && validate(pqty) && validate(price)) {
+                if (
+                        validate(Barcode) &&
+                        validate(Pname) &&
+                        validate(Supplier) &&
+                        validate(Category) &&
+                        validate(Quantity) &&
+                        validate(OriginalPrice) &&
+                        validate(SellingPrice) &&
+                        validate(Date)) {
                     updateData();
                 }
             }
@@ -83,11 +93,16 @@ public class EditActivity extends AppCompatActivity {
         // enqueue is used for callback response and error
 
         (Api.getClient().update(
-                id.getText().toString().trim(),
-                pname.getText().toString().trim(),
-                pdescription.getText().toString().trim(),
-                pqty.getText().toString().trim(),
-                price.getText().toString().trim())).enqueue(new Callback<Products>() {
+       Barcode.getText().toString().trim(),
+      Pname.getText().toString().trim(),
+      Supplier.getText().toString().trim(),
+      Category.getText().toString().trim(),
+      Quantity.getText().toString().trim()  ,
+      OriginalPrice.getText().toString().trim(),
+      SellingPrice.getText().toString().trim(),
+      Date.getText().toString().trim()
+
+        )).enqueue(new Callback<Products>() {
             @Override
             public void onResponse(Call<Products> call, Response<Products> response) {
                 signUpResponsesData = response.body();

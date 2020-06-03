@@ -63,6 +63,12 @@ public class ListActivity extends AppCompatActivity {
         getProductListData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getProductListData();
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add, menu);
         return true;
@@ -72,7 +78,9 @@ public class ListActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.add) {
 
-            Intent tes = new Intent(ListActivity.this, Scanner.class);
+            Intent tes = new Intent(ListActivity.this, MainActivity.class);
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            i.putExtra("barcode", 0);
             startActivity(tes);
 
         }

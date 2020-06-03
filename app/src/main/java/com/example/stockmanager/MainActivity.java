@@ -1,26 +1,17 @@
 package com.example.stockmanager;
 
 import android.app.ProgressDialog;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,9 +20,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     Products signUpResponsesData;
 
-    EditText id, pqty, pname, pdescription, price;
-    String Pid, Pqty, Pname, Pdescription, Pprice;
-    Button scan, button;
+    EditText barcode, pname, supplier, category, quantity, originalPrice, sellingPrice, date;
+    String Barcode, Pname, Supplier, Category, Quantity, OriginalPrice, SellingPrice, Date;
+    Button image, button, scanbutton;
     Boolean valid = true;
     ProgressDialog progressDialog;
     @Override
@@ -39,24 +30,45 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        id = findViewById(R.id.barcode);
-        pqty = findViewById(R.id.pqty);
+        barcode = findViewById(R.id.barcode);
         pname = findViewById(R.id.pname);
-        pdescription = findViewById(R.id.pdescription);
-        price = findViewById(R.id.pprice);
+        supplier = findViewById(R.id.supplier);
+        category = findViewById(R.id.category);
+        quantity = findViewById(R.id.quantity);
+        originalPrice = findViewById(R.id.originalPrice);
+        sellingPrice = findViewById(R.id.sellingPrice);
+        date = findViewById(R.id.date);
+        image = findViewById(R.id.button2);
+        scanbutton = findViewById(R.id.scanbutton);
+
         progressDialog = new ProgressDialog(this);
         button = findViewById(R.id.button);
+        image = findViewById(R.id.button2);
 
-        Bundle extras = getIntent().getExtras();
-        String barcode = extras.getString("barcode");
-        id.setText(barcode);
+
+        barcode.setText(getIntent().getStringExtra("barcode"));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // validate the fields and call sign method to implement the api
-                if (validate(pname) && validate(pdescription) && validate(pqty) && validate(price)) {
+                if (validate(supplier) && validate(category) && validate(supplier) && validate(quantity)) {
                     submit();
                 }
+            }
+        });
+        image.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+                                          Intent tes = new Intent(MainActivity.this, ImageActivity.class);
+                                          tes.putExtra("Pname", pname.getText().toString());
+                                          startActivity(tes);
+                                      }
+                                  });
+        scanbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent tes = new Intent(MainActivity.this, Scanner.class);
+                startActivity(tes);
             }
         });
     }
@@ -73,6 +85,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void submit() {
+        Barcode = barcode.getText().toString().trim();
+        Pname = pname.getText().toString().trim();
+        Supplier = supplier.getText().toString().trim();
+        Category = category.getText().toString().trim();
+        Quantity = quantity.getText().toString().trim();
+        OriginalPrice = originalPrice.getText().toString().trim();
+        SellingPrice = sellingPrice.getText().toString().trim();
+        Date = date.getText().toString().trim();
+
+
         // display a progress dialog
         final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setCancelable(false); // set cancelable to false
@@ -83,11 +105,15 @@ public class MainActivity extends AppCompatActivity {
         // registration is a POST request type method in which we are sending our field's data
         // enqueue is used for callback response and error
         (Api.getClient().add(
-                id.getText().toString().trim(),
-                pname.getText().toString().trim(),
-                pdescription.getText().toString().trim(),
-                pqty.getText().toString().trim(),
-                price.getText().toString().trim())).enqueue(new Callback<Products>() {
+                Barcode,
+                Pname,
+                Supplier,
+                Category,
+                Quantity,
+                OriginalPrice,
+                SellingPrice,
+                Date))
+                .enqueue(new Callback<Products>() {
             @Override
             public void onResponse(Call<Products> call, Response<Products> response) {
                 signUpResponsesData = response.body();
@@ -112,6 +138,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         Bundle extras = getIntent().getExtras();
         String barcode = extras.getString("barcode");
-        id.setText(barcode);
+        this.barcode.setText(barcode);
     }
 }

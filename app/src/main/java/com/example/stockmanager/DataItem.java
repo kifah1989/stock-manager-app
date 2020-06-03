@@ -1,66 +1,90 @@
 package com.example.stockmanager;
 
-public class DataItem{
+public class DataItem {
+    private String Barcode;
+    private String Pname;
+    private String Supplier;
+    private String Category;
+    private String Quantity;
+    private String OriginalPrice;
+    private String SellingPrice;
+    private String Date;
 
-    private String pdescription;
-
-    private String pqty;
-
-    private String pname;
-
-    private String pprice;
-
-    private String id;
-
-    public void setPdescription(String pdescription){
-        this.pdescription = pdescription;
+    public String getBarcode() {
+        return Barcode;
     }
 
-    public String getPdescription(){
-        return pdescription;
+    public void setBarcode(String barcode) {
+        Barcode = barcode;
     }
 
-    public void setPqty(String pqty){
-        this.pqty = pqty;
+    public String getPname() {
+        return Pname;
     }
 
-    public String getPqty(){
-        return pqty;
+    public void setPname(String pname) {
+        Pname = pname;
     }
 
-    public void setPname(String pname){
-        this.pname = pname;
+    public String getSupplier() {
+        return Supplier;
     }
 
-    public String getPname(){
-        return pname;
+    public void setSupplier(String supplier) {
+        Supplier = supplier;
     }
 
-    public void setPprice(String pprice){
-        this.pprice = pprice;
+    public String getCategory() {
+        return Category;
     }
 
-    public String getPprice(){
-        return pprice;
+    public void setCategory(String category) {
+        Category = category;
     }
 
-    public void setId(String id){
-        this.id = id;
+    public String getQuantity() {
+        return Quantity;
     }
 
-    public String getId(){
-        return id;
+    public void setQuantity(String quantity) {
+        Quantity = quantity;
+    }
+
+    public String getOriginalPrice() {
+        return OriginalPrice;
+    }
+
+    public void setOriginalPrice(String originalPrice) {
+        OriginalPrice = originalPrice;
+    }
+
+    public String getSellingPrice() {
+        return SellingPrice;
+    }
+
+    public void setSellingPrice(String sellingPrice) {
+        SellingPrice = sellingPrice;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
     }
 
     @Override
-    public String toString(){
-        return
-                "DataItem{" +
-                        "pdescription = '" + pdescription + '\'' +
-                        ",pqty = '" + pqty + '\'' +
-                        ",pname = '" + pname + '\'' +
-                        ",pprice = '" + pprice + '\'' +
-                        ",id = '" + id + '\'' +
-                        "}";
+    public String toString() {
+        return "DataItem{" +
+                "Barcode='" + Barcode + '\'' +
+                ", Pname='" + Pname + '\'' +
+                ", Supplier='" + Supplier + '\'' +
+                ", Category='" + Category + '\'' +
+                ", Quantity='" + Quantity + '\'' +
+                ", OriginalPrice='" + OriginalPrice + '\'' +
+                ", SellingPrice='" + SellingPrice + '\'' +
+                ", Date='" + Date + '\'' +
+                '}';
     }
 }
