@@ -14,12 +14,12 @@ import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 
 public interface ApiInterface {
-    @GET("/android/select.php")
+    @GET("/select.php")
         // API's endpoints
     Call<Products> getUsersList();
 
     @FormUrlEncoded
-    @POST("/android/add.php")
+    @POST("/add.php")
         // API's endpoints
     Call<Products> add(@Field("barcode") String barcode,
                        @Field("pname") String pname,
@@ -31,7 +31,7 @@ public interface ApiInterface {
                        @Field("date") String date);
 
     @FormUrlEncoded
-    @POST("/android/update.php")
+    @POST("/update.php")
         // API's endpoints
     Call<Products> update(@Field("barcode") String barcode,
                           @Field("pname") String pname,
@@ -43,7 +43,7 @@ public interface ApiInterface {
                           @Field("date") String date);
 
     @FormUrlEncoded
-    @POST("/android/delete.php")
+    @POST("/delete.php")
         // API's endpoints
     Call<Products> delete(@Field("barcode") String barcode);
 

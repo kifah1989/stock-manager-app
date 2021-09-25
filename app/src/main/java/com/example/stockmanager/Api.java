@@ -13,7 +13,7 @@ public class Api {
         // change your base URL
         if (retrofit==null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.4")
+                    .baseUrl("https://sparkless-content.000webhostapp.com/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
